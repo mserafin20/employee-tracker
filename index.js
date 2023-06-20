@@ -34,9 +34,9 @@ function mainMenu () {
     if(answer.choice == "View all employees") {
       viewAllEmployees()
     }
-    // if(answer.choice == "View all departments") {
-    //   viewAllDepartments()
-    // }
+    if(answer.choice == "Add a department") {
+      addDepartment()
+    }
     // if(answer.choice == "View all departments") {
     //   viewAllDepartments()
     // }
@@ -80,23 +80,15 @@ async function viewAllEmployees() {
 };
 
 // function to add a department based on user input
-const addDepartment = async function () {
-  const departmentData = await inquirer.prompt([
+async function addDepartment() {
+  const response = await inquirer.prompt([
     {
       type: "input",
-      name: "name",
-      message: "What department would you like to add?"
+      name: "department_name",
+      message: "What department would you like to add to the database?"
     }
   ]);
-  await inquirer.prompt([
-    {
-      type: "input",
-      name: "enter",
-      message: `Successfully added department "${departmentData.name}" into database. Press enter to continue.`
-    }
-  ]);
-  await showTable([departmentData]);
-  await db.query("INSERT INTO department SET ?", departmentData);
+  const departmentData = await db.promise().query("INSERT INTO department (name) VALUES (?)", [response.department_name])
 };
 
 // function to update an employee role using input from the user
