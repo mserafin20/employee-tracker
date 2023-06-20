@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const { table } = require('table');
+const showTable = require('./utility/table');
 const mysql = require('mysql2/promise');
 
 let db;
@@ -7,76 +7,75 @@ mysql.createConnection(
   {
     host: 'localhost',
     user: 'root',
-    password: 'rootroot',
-    database: 'registrar_db'
+    password: 'MovieSequelsUsuallySuck420',
+    database: 'employee_db'
   }
 )
 .then((connection) => {
   db = connection;
-  console.log(`Connected to the registrar_db database.`)
+  console.log(`Connected to the employee_db database.`)
 });
 
-const config = {
-  border: {
-    topBody: `─`,
-    topJoin: `┬`,
-    topLeft: `┌`,
-    topRight: `┐`,
-
-    bottomBody: `─`,
-    bottomJoin: `┴`,
-    bottomLeft: `└`,
-    bottomRight: `┘`,
-
-    bodyLeft: `│`,
-    bodyRight: `│`,
-    bodyJoin: `│`,
-
-    joinBody: `─`,
-    joinLeft: `├`,
-    joinRight: `┤`,
-    joinJoin: `┼`
-  }
-};
-
-async function showTable (data){
-  let tableData = [];
-  // option 1 fancy one line table data format
-  tableData = [
-    //column
-    Object.keys(data[0]), 
-    //values
-    ...data.map(val => Object.values(val))];
-
-  // // option 2 for tables, using basic for loop and starter array
-  // tableData = [Object.keys(data[0])];
-  // for(var i = 0; i< data.length; i++){
-  //   tableData.push(Object.values(data[i]));
-  // }
-
-  // prompt is a promise based function
-  const answers = await inquirer.prompt([
+function mainMenu () {
+  inquirer.prompt([
     {
-      message: "\n" + table(tableData, config),
-      type: 'input',
-      name: 'name'
+      type: 'list',
+      name: 'choice',
+      message: 'What would you like to do?',
+      choices: [
+        "View all departments",
+        "View all roles",
+        "View all employees",
+        "Add a department",
+        "Add a role",
+        "Add an employee",
+        "Update an employee role",
+        "Exit"
+
+      ]
+    },
+  ])
+
+  .then(answer => {
+    if (answer.choice === 'View all departments') {
+      viewAllDepartments();
     }
-  ]);
+    if (answer.choice === 'View all roles') {
+      viewAllRoles();
+    }
+    if (answer.choice === 'View all employees') {
+      viewAllEmployees();
+    }
+    if (answer.choice === 'Add a department') {
+      addDepartment();
+    }
+    if (answer.choice === 'Add a role') {
+      addRole();
+    }
+    if (answer.choice === 'Add an employee') {
+      addEmployee();
+    }
+    if (answer.choice === 'Update an employee role') {
+      updateEmployee();
+    }
+    if (answer.choice === 'Exit') {
+      process.exit();
+    }
+  })
 }
 
-const dbData = [
-  { id: 1, name: "Anthony"},
-  { id: 2, name: "Myself"},
-  { id: 3, name: "Turtle"},
-];
+// const dbData = [
+//   { id: 1, name: "Anthony"},
+//   { id: 2, name: "Myself"},
+//   { id: 3, name: "Turtle"},
+// ];
 
 const addCourse = async function() {
   //TODO complete adding a course by asking for instructor and course info
   console.log("Test");
 
-  const results = await db.query("SELECT * FROM instructors");
+  const results = await db.query("SELECT * FROM department");
   const dbData = results[0];
-  // console.log(dbData);
   const choiceData = dbData.map( (row) => ({
     name: row.first_name + " " + row.last_name,
     value: row
@@ -146,7 +145,7 @@ const menu = async function () {
 const init = async function(){
   // show table is an async function which will look like a promise in console
   // if we print
-  await showTable(dbData);
+  await showTable();
   await menu();
 }
 
