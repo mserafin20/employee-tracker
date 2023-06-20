@@ -24,7 +24,7 @@ const config = {
     }
   };
   
-  async function showTable (data){
+  async function showTable (data) {
     let tableData = [];
     tableData = [Object.keys(data[0]), ...data.map(val => Object.values(val))];
   
