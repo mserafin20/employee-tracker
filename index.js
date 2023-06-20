@@ -1,11 +1,12 @@
 const inquirer = require('inquirer');
 const showTable = require('./utility/table');
-const mysql = require('mysql2/promise');
-const { table } = require('table');
+// const mysql = require('mysql2/promise');
+// const { table } = require('table');+
+const db = require('./config/connection')
 
 
-const mainMenu = async function () {
-  const choices = await inquirer.prompt([
+function mainMenu () {
+  inquirer.prompt([
     {
       type: 'list',
       name: 'choice',
@@ -23,65 +24,52 @@ const mainMenu = async function () {
       ]
     },
   ])
-
-    // if (choices.options === 'View all departments') {
-    //   viewAllDepartments();
-    //   await mainMenu();
-    // } else if (choices.options === 'View all roles') {
-    //   viewAllRoles();
-    //   await mainMenu();
-    // } else if (choices.options === 'View all employees') {
-    //   viewAllEmployees();
-    //   await mainMenu();
-    // } else if (choices.options === 'Add a department') {
-    //   addDepartment();
-    //   await mainMenu();
-    // } else if (choices.options === 'Add a role') {
-    //   addRole();
-    //   await mainMenu();
-    // } else if (choices.options === 'Add an employee') {
-    //   addEmployee();
-    //   await mainMenu();
-    // } else if (choices.options === 'Update an employee role') {
-    //   updateEmployee();
-    //   await mainMenu();
-    // } else { 
-    //   await process.exit();
-    //   await mainMenu();
+  .then(answer => {
+    if(answer.choice == "View all departments") {
+      viewAllDepartments()
+    }
+    if(answer.choice == "View all roles") {
+      viewAllRoles()
+    }
+    if(answer.choice == "View all employees") {
+      viewAllDepartments()
+    }
+    // if(answer.choice == "View all departments") {
+    //   viewAllDepartments()
     // }
-    if (choices.options === 'View all departments') {
-      viewAllDepartments();
-      await mainMenu();
-    } else if (choices.options === 'View all roles') {
-      viewAllRoles();
-      await mainMenu();
-    } else if (choices.options === 'View all employees') {
-      viewAllEmployees();
-      await mainMenu();
-    } else if (choices.options === 'Add a department') {
-      addDepartment();
-      await mainMenu();
-    } else if (choices.options === 'Add a role') {
-      addRole();
-      await mainMenu();
-    } else if (choices.options === 'Add an employee') {
-      addEmployee();
-      await mainMenu();
-    } else  {
-      updateEmployee();
-      await mainMenu();
-    } 
-  }
-
+    // if(answer.choice == "View all departments") {
+    //   viewAllDepartments()
+    // }
+    // if(answer.choice == "View all departments") {
+    //   viewAllDepartments()
+    // }
+    // if(answer.choice == "View all departments") {
+    //   viewAllDepartments()
+    // }
+    // if(answer.choice == "View all departments") {
+    //   viewAllDepartments()
+    // }
+  })
+}
 
 
 
 // function to view the data in the department table
-const viewAllDepartments = async function () {
-  const results = await db.query("SELECT * FROM department");
-  const dbData = results[0];
-  showTable(dbData);
-};
+// async function viewAllDepartments() {
+//   const departmentData = await db.promise().query("SELECT * FROM department;")
+// }
+
+function viewAllDepartments() {
+  db.query("SELECT * FROM department;", async function (err, data) {
+    if(err) {
+      console.log(err);
+      return;
+    } else {
+      await showTable(data)
+      mainMenu()
+    }
+  })
+}
 
 // function to view data in the role table
 const viewAllRoles = async function () {
