@@ -32,7 +32,7 @@ function mainMenu () {
       viewAllRoles()
     }
     if(answer.choice == "View all employees") {
-      viewAllDepartments()
+      viewAllEmployees()
     }
     // if(answer.choice == "View all departments") {
     //   viewAllDepartments()
@@ -52,13 +52,7 @@ function mainMenu () {
   })
 }
 
-
-
 // function to view the data in the department table
-// async function viewAllDepartments() {
-//   const departmentData = await db.promise().query("SELECT * FROM department;")
-// }
-
 function viewAllDepartments() {
   db.query("SELECT * FROM department;", async function (err, data) {
     if(err) {
@@ -72,17 +66,17 @@ function viewAllDepartments() {
 }
 
 // function to view data in the role table
-const viewAllRoles = async function () {
-  const results = await db.query("SELECT * FROM role");
-  const dbData = results[0];
-  showTable(dbData);
+async function viewAllRoles() {
+  const roleData = await db.promise().query("SELECT * FROM role");
+  await showTable(roleData[0]);
+  mainMenu();
 };
 
 // function to view data in the employee table
-const viewAllEmployees = async function () {
-  const results = await db.query("SELECT * FROM employee");
-  const dbData = results[0];
-  showTable(dbData);
+async function viewAllEmployees() {
+  const employeeData = await db.promise().query("SELECT e.id, e.first_name, e.last_name, r.title, d.name AS department, r.salary, CONCAT(m.first_name, ' ', m.last_name) AS manager FROM employee e LEFT JOIN employee m ON m.id = e.manager_id JOIN role r ON e.role_id = r.id JOIN department d ON d.id = r.department_id;")
+  await showTable(employeeData[0]);
+  mainMenu()
 };
 
 // function to add a department based on user input
