@@ -4,21 +4,6 @@ const mysql = require('mysql2/promise');
 const { table } = require('table');
 
 
-
-let db;
-mysql.createConnection(
-  {
-    host: 'localhost',
-    user: 'root',
-    password: 'MovieSequelsUsuallySuck420',
-    database: 'employee_db'
-  }
-)
-.then((connection) => {
-  db = connection;
-  console.log(`Connected to the employee_db database.`)
-});
-
 const mainMenu = async function () {
   const choices = await inquirer.prompt([
     {
