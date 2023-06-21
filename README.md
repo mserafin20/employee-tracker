@@ -29,6 +29,8 @@ The install command for this application is "npm i"
 
   To begin using this application, enter "node index.js" into the command-line and follow the prompts.
 
+  [If video is unresponsive click here](https://drive.google.com/file/d/14UZm6gLmSFy61Wu8AaOPprUOGZY-wE7B/view)
+
 
   ## License 
 
