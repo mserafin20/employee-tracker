@@ -29,6 +29,8 @@ The install command for this application is "npm i"
 
   To begin using this application, enter "node index.js" into the command-line and follow the prompts.
 
+[Employee-tracker (1).webm](https://github.com/mserafin20/employee-tracker/assets/125826335/79031893-0afc-4052-a38d-1f90078dfa9a)
+
   [If video is unresponsive click here](https://drive.google.com/file/d/14UZm6gLmSFy61Wu8AaOPprUOGZY-wE7B/view)
 
 
