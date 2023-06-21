@@ -46,9 +46,9 @@ function mainMenu () {
     if(answer.choice == "Update an employee role") {
       updateEmployeeRole()
     }
-    // if(answer.choice == "View all departments") {
-    //   viewAllDepartments()
-    // }
+    if(answer.choice == "Exit") {
+      process.exit()
+    }
   })
 }
 
